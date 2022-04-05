@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import {Link} from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import BootstrapTable from "react-bootstrap-table-next";
@@ -6,6 +7,7 @@ import filterFactory, { textFilter } from "react-bootstrap-table2-filter";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import { Button } from "react-bootstrap";
 import { VscEdit } from 'react-icons/vsc';
+import {logar} from '../services/Api'
 
 export const Tabela = () => {
 
@@ -216,9 +218,12 @@ export const Tabela = () => {
               />
             </div>
             <div className="col-md-3 col-sm-12 mt-3">
-              <Button variant="success" Style='width: 100%; height: 2.4rem; margin-top: 1.4rem'>
-                Validar
-              </Button>
+              
+                <Button variant="success" Style='width: 100%; height: 2.4rem; margin-top: 1.4rem' 
+                onClick={logar}>
+                  Validar
+                </Button>
+              
             </div>
           </div>
 

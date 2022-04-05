@@ -1,7 +1,6 @@
 import axios from 'axios';
-import Config from 'react-native-config';
-import { getJWTToken } from '../utils/StorageUtil';
-import { navigate } from '../../RootNavigation';
+import { useJwt } from "react-jwt";
+
 
 const mountHeader = async () => {
     return {
@@ -10,7 +9,7 @@ const mountHeader = async () => {
         'Content-Type': 'application/json; charset=utf-8',
         'Accept': "*/*",
         'Access-Control-Allow-Origin': "*",
-        'Authorization': `Bearer ${(await getJWTToken()).data}`
+        'Authorization': `Bearer ${(await useJwt()).data}`
     };
 }
 
