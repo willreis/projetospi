@@ -1,0 +1,127 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* .pro-sidebar {
+  width: 220px !important;
+  min-width: 220px !important;
+} */
+
+span.pro-item-content:hover {
+  color: #000 !important;
+}
+
+.paddingContainer {
+  padding: 3rem !important;
+}
+
+.pro-sidebar .pro-menu .pro-menu-item>.pro-inner-item:hover {
+  color: #000 !important;
+}
+
+.pro-sidebar .pro-menu .pro-menu-item>.pro-inner-item:focus {
+  outline: none;
+  color: #000 !important;
+}
+
+.tituloBoxProd p {
+  color: #555;
+  font-weight: bold;
+  font-size: 22px;
+}
+
+table th {
+  font-size: 1rem !important;
+  vertical-align: middle
+}
+
+table tr td {
+  text-align: center;
+}
+
+table th label input {
+  height: 30px;
+  text-align: center;
+}
+
+span.sr-only {
+  display: none !important;
+}
+
+input#text-filter-column {
+  height: 230px;
+}
+
+.caret {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: 2px;
+  vertical-align: middle;
+  border-top: 4px dashed;
+  border-top: 4px solid \9;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+}
+
+.dropup .caret,
+.navbar-fixed-bottom .dropdown .caret {
+  border-top: 0;
+  border-bottom: 4px dashed;
+  border-bottom: 4px solid \9;
+  content: "";
+}
+
+/*Menu*/
+.pro-sidebar .pro-menu .pro-menu-item.pro-sub-menu>.pro-inner-item>.pro-arrow-wrapper .pro-arrow {
+  border-color: #000 !important;
+}
+
+.pro-sidebar {
+  color: #adadad;
+  min-width: 270px;
+  position: relative;
+  text-align: left;
+  transition: width, left, right, .3s;
+  width: 270px;
+  z-index: 1009;
+  color: #000 !important;
+  font-size: 18px;
+}
+
+.pro-sidebar>.pro-sidebar-inner {
+  background: #6DA6DA !important;
+}
+
+.pro-sidebar .pro-menu>ul>.pro-sub-menu>.pro-inner-list-item {
+  background-color: #6DA6DA !important;
+}
+
+.pro-sidebar .pro-menu.shaped .pro-menu-item>.pro-inner-item>.pro-icon-wrapper {
+  background: #6DA6DA !important;
+}
+
+.pro-sidebar .pro-menu .pro-menu-item>.pro-inner-item>.pro-icon-wrapper {
+  font-size: 18px
+}
+
+.pro-sidebar .pro-menu .pro-menu-item {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.pro-sidebar .pro-menu a {
+  text-decoration: none !important;
+  color: #000000 !important;
+}
+
+.pro-sidebar-inner {
+  color: #000000 !important;
+}
+
+.pro-sidebar-inner:hover {
+  color: #000000 !important;
+}
