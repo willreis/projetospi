@@ -33,6 +33,7 @@ export const Tabela = () => {
     // JWT exp is in seconds
     if (decodedToken.exp * 1000 < currentDate.getTime()) {
       console.log("Token expired.");
+      window.location.href = "/";
     } else {
       console.log("Valid token");   
     }
@@ -54,6 +55,8 @@ export const Tabela = () => {
     var operacaoValue = document.getElementById("operacao");
     var operacaoText = operacaoValue.options[operacaoValue.selectedIndex].value;
     var tipoOperacaoText = tipoOperacaoValue.options[tipoOperacaoValue.selectedIndex].value;  
+
+    validarToken();
 
     const token = localStorage.getItem('token');
     axios.post(`http://52.149.163.55:6161/api/report/getaudittrail`, {
