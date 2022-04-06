@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import jwt_decode from "jwt-decode";
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -22,6 +23,21 @@ export const Tabela = () => {
     postOperacao()
   }, []);
 
+  function validarToken()
+  {
+    let token = localStorage.getItem("token");
+    let decodedToken = jwt_decode(token);
+    console.log("Decoded Token", decodedToken);
+    let currentDate = new Date();
+
+    // JWT exp is in seconds
+    if (decodedToken.exp * 1000 < currentDate.getTime()) {
+      console.log("Token expired.");
+    } else {
+      console.log("Valid token");   
+    }
+  } 
+
   const mountHeader = async (token) => {
     return {
       "cache-control": "no-cache",
@@ -34,7 +50,11 @@ export const Tabela = () => {
   };
 
   function postAuditTrail() {
-    console.log("Chegou aqui!")
+    var tipoOperacaoValue = document.getElementById("tipoOperacao");
+    var operacaoValue = document.getElementById("operacao");
+    var operacaoText = operacaoValue.options[operacaoValue.selectedIndex].value;
+    var tipoOperacaoText = tipoOperacaoValue.options[tipoOperacaoValue.selectedIndex].value;  
+
     const token = localStorage.getItem('token');
     axios.post(`http://52.149.163.55:6161/api/report/getaudittrail`, {
       headers: mountHeader(token),
@@ -42,8 +62,8 @@ export const Tabela = () => {
       hashkey: "85853456",
       requestUID: "123456",
       idOrdemTransporte: -1,
-      tipoOperacao: "-1",
-      operacao: "-1",
+      tipoOperacao: tipoOperacaoText,
+      operacao: operacaoText,
       uid: "-1",
       dataInicio: "2022-04-01 00:00:01",
       dataFim: "2022-04-04 23:59:59"
@@ -68,8 +88,8 @@ export const Tabela = () => {
         console.log("Erro: ", error);
       })
 
-    console.log("Tipo Operacao: ", tipoOperacao);
-    console.log("Operacao: ", operacao);
+    console.log("Tipo Operacao Value: ", tipoOperacaoText);
+    console.log("Operacao Value: ", operacaoText);
   }
 
   function postTipoOperacao() {
@@ -276,14 +296,14 @@ export const Tabela = () => {
             </div>
 
             <div class="col-md-3 mt-3">
-              <label for="mesaSaida">Select 1</label>
+              <label for="tipoOperacao">Select 1</label>
               <select
-                id="mesaSaida"
+                id="tipoOperacao"
                 type="text"
               // value={mesaSaidaId}
               // onChange={validadacaoMesa}
               >
-                <option>Escolha uma opção abaixo</option>
+                <option value="-1">Escolha uma opção abaixo</option>
                 {tipoOperacao.map((getSelect) => (
                   <option value={getSelect}>
                     {getSelect}
@@ -292,14 +312,14 @@ export const Tabela = () => {
               </select>
             </div>
             <div class="col-md-3 mt-3">
-              <label for="mesaSaida">Select 2</label>
+              <label for="operacao">Select 2</label>
               <select
-                id="mesaSaida"
+                id="operacao"
                 type="text"
               // value={mesaSaidaId}
               // onChange={validadacaoMesa}
               >
-                <option>Escolha uma opção abaixo</option>
+                <option value="-1">Escolha uma opção abaixo</option>
                 {operacao.map((getSelect) => (
                   <option value={getSelect}>
                     {getSelect}
