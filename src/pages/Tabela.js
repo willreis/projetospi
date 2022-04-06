@@ -1,5 +1,6 @@
-import React from 'react';
-import {Link} from 'react-router-dom';
+import React, { useState } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import BootstrapTable from "react-bootstrap-table-next";
@@ -8,27 +9,111 @@ import paginationFactory from "react-bootstrap-table2-paginator";
 import { Button } from "react-bootstrap";
 import { VscEdit } from 'react-icons/vsc';
 import Api2 from '../services/Api2'
+import { useEffect } from 'react';
 
 export const Tabela = () => {
 
-const [idEmpresa,setIdEmpresa] = useState();
-const [hashkey,setHashkey] = useState();
-const [requestUID,setRequestUID] = useState();
-const [idOrdemTransporte,setIdOrdemTransporte] = useState();
-const [tipoOperacao,setTipoOperacao] = useState();
-const [operacao1,setOperacao1] = useState();
-const [uid1,setUid1] = useState();
-const [dataInicio,setDataInicio] = useState();
-const [dataFim,setDataFim] = useState();
+  const [auditTrails, setAuditTrails] = useState([]);
+  const [tipoOperacao, setTipoOperacao] = useState([]);
+  const [operacao, setOperacao] = useState([]);
 
-  function postLogin() {
-    axios.post(`http://52.149.163.55:6161/api/authentication/login`, {
-      idEmpresa:idEmpresa,
+  useEffect(() => {
+    postTipoOperacao()
+    postOperacao()
+  }, []);
+
+  const mountHeader = async (token) => {
+    return {
+      "cache-control": "no-cache",
+      "Transfer-Encoding": "chunked",
+      "Content-Type": "application/json; charset=utf-8",
+      Accept: "*/*",
+      "Access-Control-Allow-Origin": "*",
+      Authorization: `Bearer ${await token}`,
+    };
+  };
+
+  function postAuditTrail() {
+    console.log("Chegou aqui!")
+    const token = localStorage.getItem('token');
+    axios.post(`http://52.149.163.55:6161/api/report/getaudittrail`, {
+      headers: mountHeader(token),
+      idEmpresa: 1,
       hashkey: "85853456",
-      uid,
-      password,
-      versao: "0.0.3",
+      requestUID: "123456",
+      idOrdemTransporte: -1,
+      tipoOperacao: "-1",
+      operacao: "-1",
+      uid: "-1",
+      dataInicio: "2022-04-01 00:00:01",
+      dataFim: "2022-04-04 23:59:59"
     })
+      .then((response) => {
+        setAuditTrails(
+          response.data.auditTrails.map((get) => {
+            console.log("Resposta: ", response.data.auditTrails);
+            return {
+              idLogOperacao: get.idLogOperacao,
+              idEmpresa: get.idEmpresa,
+              idOrdemTransporte: get.idOrdemTransporte,
+              tipoOperacao: get.tipoOperacao,
+              operacao: get.operacao,
+              sucesso: get.sucesso,
+              mensagem: get.mensagem,
+            }
+          })
+        )
+      })
+      .catch((error) => {
+        console.log("Erro: ", error);
+      })
+
+    console.log("Tipo Operacao: ", tipoOperacao);
+    console.log("Operacao: ", operacao);
+  }
+
+  function postTipoOperacao() {
+    console.log("Chegou aqui!")
+    const token = localStorage.getItem('token');
+    axios.post(`http://52.149.163.55:6161/api/report/gettipooperacao`, {
+      headers: mountHeader(token),
+      idEmpresa: 1,
+      hashkey: "85853456",
+      requestUID: "123456"
+    })
+      .then((response) => {
+        console.log("Precisa disso?", response.data.tipoOperacao);
+        setTipoOperacao(
+          response.data.tipoOperacao
+        )
+      })
+      .catch((error) => {
+        console.log("Erro: ", error);
+      })
+  }
+
+  function postOperacao() {
+    console.log("Chegou aqui!")
+    const token = localStorage.getItem('token');
+    axios.post(`http://52.149.163.55:6161/api/report/getoperacao`, {
+      headers: mountHeader(token),
+      idEmpresa: 1,
+      hashkey: "85853456",
+      requestUID: "123456"
+    })
+      .then((response) => {
+        setOperacao(
+          response.data.operacao.map((get) => {
+            console.log("Resposta: ", response.data.auditTrails);
+            return {
+              operacao: get.operacao
+            }
+          })
+        )
+      })
+      .catch((error) => {
+        console.log("Erro: ", error);
+      })
   }
 
   //paginationFactory (Essa parte tem que ficar acima para ñ dar branco na tela)
@@ -68,80 +153,10 @@ const [dataFim,setDataFim] = useState();
     ],
   };
 
-  // Passando os dados na mão!
-  const products = [
-    {
-      ordem: 132,
-      nomedaMaquina: "P3",
-      dataInicioDoProcesso: "15/03/2022",
-      dataFimDoProcesso: "20/03/2022",
-    },
-    {
-      ordem: 132,
-      nomedaMaquina: "P3",
-      dataInicioDoProcesso: "15/03/2022",
-      dataFimDoProcesso: "20/03/2022",
-    },
-    {
-      ordem: 132,
-      nomedaMaquina: "P3",
-      dataInicioDoProcesso: "15/03/2022",
-      dataFimDoProcesso: "20/03/2022",
-    },
-    {
-      ordem: 132,
-      nomedaMaquina: "P3",
-      dataInicioDoProcesso: "15/03/2022",
-      dataFimDoProcesso: "20/03/2022",
-    },
-    {
-      ordem: 132,
-      nomedaMaquina: "P3",
-      dataInicioDoProcesso: "15/03/2022",
-      dataFimDoProcesso: "20/03/2022",
-    },
-    {
-      ordem: 132,
-      nomedaMaquina: "P3",
-      dataInicioDoProcesso: "15/03/2022",
-      dataFimDoProcesso: "20/03/2022",
-    },
-    {
-      ordem: 132,
-      nomedaMaquina: "P3",
-      dataInicioDoProcesso: "15/03/2022",
-      dataFimDoProcesso: "20/03/2022",
-    },
-    {
-      ordem: 132,
-      nomedaMaquina: "P3",
-      dataInicioDoProcesso: "15/03/2022",
-      dataFimDoProcesso: "20/03/2022",
-    },
-    {
-      ordem: 132,
-      nomedaMaquina: "P3",
-      dataInicioDoProcesso: "15/03/2022",
-      dataFimDoProcesso: "20/03/2022",
-    },
-    {
-      ordem: 132,
-      nomedaMaquina: "P3",
-      dataInicioDoProcesso: "15/03/2022",
-      dataFimDoProcesso: "20/03/2022",
-    },
-    {
-      ordem: 132,
-      nomedaMaquina: "P3",
-      dataInicioDoProcesso: "15/03/2022",
-      dataFimDoProcesso: "20/03/2022",
-    },
-  ];
-
   const columns = [
     {
-      dataField: "ordem",
-      text: "Ordem",
+      dataField: "idLogOperacao",
+      text: "ID Operação",
       headerAlign: "center",
       headerStyle: { backgroundColor: "rgb(151 151 151)", fontSize: "14px" },
       sort: true,
@@ -150,8 +165,8 @@ const [dataFim,setDataFim] = useState();
       }),
     },
     {
-      dataField: "nomedaMaquina",
-      text: "Nome da Máquina",
+      dataField: "idEmpresa",
+      text: "ID Empresa",
       headerAlign: "center",
       headerStyle: { backgroundColor: "rgb(151 151 151)", fontSize: "14px" },
       sort: true,
@@ -160,8 +175,8 @@ const [dataFim,setDataFim] = useState();
       }),
     },
     {
-      dataField: "dataInicioDoProcesso",
-      text: "Data Início do Processo",
+      dataField: "idOrdemTransporte",
+      text: "ID Ordem Transporte",
       headerAlign: "center",
       headerStyle: { backgroundColor: "rgb(151 151 151)", fontSize: "14px" },
       sort: true,
@@ -170,8 +185,8 @@ const [dataFim,setDataFim] = useState();
       }),
     },
     {
-      dataField: "dataFimDoProcesso",
-      text: "Data Fim do Processo",
+      dataField: "tipoOperacao",
+      text: "Tipo Operação",
       headerAlign: "center",
       headerStyle: { backgroundColor: "rgb(151 151 151)", fontSize: "14px" },
       sort: true,
@@ -180,25 +195,34 @@ const [dataFim,setDataFim] = useState();
       }),
     },
     {
-      dataField: "opcoes",
-      text: "Opções",
+      dataField: "operacao",
+      text: "Operação",
       headerAlign: "center",
       headerStyle: { backgroundColor: "rgb(151 151 151)", fontSize: "14px" },
-      formatter: (cellContent, row) => {
-        return (
-          <>
-            <span
-              className="spanTabela"
-              // id={row.impressoraId}
-              Style="cursor:pointer"
-              // onClick={() => { funcaoAbrirModalPut(row) }}
-              data-toggle="tooltip" data-placement="left" title="Editar"
-            >
-              <VscEdit />
-            </span>
-          </>
-        );
-      },
+      sort: true,
+      filter: textFilter({
+        placeholder: "Filtrar Data Fim",
+      }),
+    },
+    {
+      dataField: "sucesso",
+      text: "Sucesso",
+      headerAlign: "center",
+      headerStyle: { backgroundColor: "rgb(151 151 151)", fontSize: "14px" },
+      sort: true,
+      filter: textFilter({
+        placeholder: "Filtrar Data Fim",
+      }),
+    },
+    {
+      dataField: "mensagem",
+      text: "Mensagem",
+      headerAlign: "center",
+      headerStyle: { backgroundColor: "rgb(151 151 151)", fontSize: "14px" },
+      sort: true,
+      filter: textFilter({
+        placeholder: "Filtrar Data Fim",
+      }),
     },
   ];
 
@@ -238,12 +262,13 @@ const [dataFim,setDataFim] = useState();
               />
             </div>
             <div className="col-md-3 col-sm-12 mt-3">
-              
-                <Button variant="success" Style='width: 100%; height: 2.4rem; margin-top: 1.4rem' 
-                onClick={Api2}>
-                  Validar
-                </Button>
-              
+
+              <Button variant="success" Style='width: 100%; height: 2.4rem; margin-top: 1.4rem'
+                onClick={postAuditTrail}
+              >
+                Validar
+              </Button>
+
             </div>
           </div>
 
@@ -255,20 +280,34 @@ const [dataFim,setDataFim] = useState();
               // onChange={(e) => setStatus(e.target.value)}
               />
             </div>
-            <div className="col-md-3 col-sm-12 mt-3">
-              <label for='ovm'>OVM</label>
-              <input id='ovm' type="text" className="form-control"
-              // Value={ordemProducao.titulo}
-              // onChange={(e) => setTitulo(e.target.value)}
-              />
+
+            <div class="col-md-3 mt-3">
+              <label for="mesaSaida">Select 1</label>
+              <select
+                id="mesaSaida"
+                type="text"
+              // value={mesaSaidaId}
+              // onChange={validadacaoMesa}
+              >
+                <option>Escolha uma opção abaixo</option>
+                <option>{tipoOperacao}</option>
+              </select>
             </div>
-            <div className="col-md-3 col-sm-12 mt-3">
-              <label for='op'>OP</label>
-              <input id='op' type="text" className="form-control"
-              // Value={ordemProducao.familia}
-              // onChange={(e) => setFamilia(e.target.value)}
-              />
+            <div class="col-md-3 mt-3">
+              <label for="mesaSaida">Select 2</label>
+              <select
+                id="mesaSaida"
+                type="text"
+              // value={mesaSaidaId}
+              // onChange={validadacaoMesa}
+              >
+                <option>Escolha uma opção abaixo</option>
+                {operacao.map((parametro) => {
+                  <option>{parametro.operacao}</option>
+                })}
+              </select>
             </div>
+
             <div className="col-md-3 col-sm-12" Style='display: flex; justify-content: flex-end; align-items: flex-end'>
               <Button variant="primary" Style='width: 100%; height: 2.4rem'>
                 Gerar
@@ -285,7 +324,7 @@ const [dataFim,setDataFim] = useState();
                 hover
                 striped
                 columns={columns}
-                data={products}
+                data={auditTrails}
                 // selectRow={selectRow}
                 filter={filterFactory()}
                 pagination={paginationFactory(options)}
