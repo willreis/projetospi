@@ -11,6 +11,26 @@ import Api2 from '../services/Api2'
 
 export const Tabela = () => {
 
+const [idEmpresa,setIdEmpresa] = useState();
+const [hashkey,setHashkey] = useState();
+const [requestUID,setRequestUID] = useState();
+const [idOrdemTransporte,setIdOrdemTransporte] = useState();
+const [tipoOperacao,setTipoOperacao] = useState();
+const [operacao1,setOperacao1] = useState();
+const [uid1,setUid1] = useState();
+const [dataInicio,setDataInicio] = useState();
+const [dataFim,setDataFim] = useState();
+
+  function postLogin() {
+    axios.post(`http://52.149.163.55:6161/api/authentication/login`, {
+      idEmpresa:idEmpresa,
+      hashkey: "85853456",
+      uid,
+      password,
+      versao: "0.0.3",
+    })
+  }
+
   //paginationFactory (Essa parte tem que ficar acima para ñ dar branco na tela)
   const customTotal = (from, to, size) => (
     <span>
