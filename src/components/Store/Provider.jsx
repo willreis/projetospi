@@ -4,7 +4,6 @@ import useStorage from '../../utils/useStorage';
 
 const StoreProvider = ({ children }) => {
     const [token, setToken] = useStorage('token');
-    const [nomeUsuario, setNomeUsuario] = useStorage('nomeUsuario');
 
 
     return (
@@ -12,8 +11,6 @@ const StoreProvider = ({ children }) => {
             value={{
                 token,
                 setToken,
-                nomeUsuario,
-                setNomeUsuario,
             }}
         >
             {children}

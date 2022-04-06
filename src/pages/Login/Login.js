@@ -1,17 +1,17 @@
 import React, { useState, useEffect, useContext } from "react";
+import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import Swal2 from "sweetalert2";
-import atlasLogo from "../../assets/img/atlas_logo.png";
-import Api from "../../services/Api";
 import { RiLoginBoxLine } from "react-icons/ri";
 import StoreContext from "../../components/Store/Context";
 import { useHistory } from "react-router-dom";
 import "../../login.css";
 
 function Login() {
-  const [email, setEmail] = useState("");
+  const [idEmpresa, setIdEmpresa] = useState(1);
+  const [uid, setUid] = useState("");
   const [password, setPassword] = useState("");
   const { setToken } = useContext(StoreContext);
   const history = useHistory();
@@ -27,8 +27,15 @@ function Login() {
   }
   // ----------------------------------------------------------------------------------------//
   function postLogin() {
-    Api.post(`/${url}?matricula=${email}&senha=${password}`, {})
+    axios.post(`http://52.149.163.55:6161/api/authentication/login`, {
+      idEmpresa:idEmpresa,
+      hashkey: "85853456",
+      uid,
+      password,
+      versao: "0.0.3",
+    })
       .then((response) => {
+        console.log(response.data);
         if (response.data == "" || response.data == undefined) {
           Swal2.fire({
             text: "Erro De Login",
@@ -40,8 +47,8 @@ function Login() {
         } else if (
           password == "" ||
           password == undefined ||
-          email == "" ||
-          email == undefined
+          uid == "" ||
+          uid == undefined
         ) {
           Swal2.fire({
             text: "Usuário ou Senha não fornecidos",
@@ -57,7 +64,7 @@ function Login() {
             showConfirmButton: false,
             timer: 2500,
           });
-          setToken(response.data);
+          setToken(response.data.token);
           console.log(response.data);
           window.location.href = "/";
         }
@@ -80,17 +87,17 @@ function Login() {
           <div className="row justify-content-center">
             <div className="col-md-4">
               <div className="logoAtlaslogin">
-                <img src={atlasLogo} alt="atlas-logo" Style="width:100%" />
+                <img src="#" alt="atlas-logo" Style="width:100%" />
               </div>
               <div className="loginBox">
                 <Form>
                   <Form.Group size="lg" controlId="email">
-                    <Form.Label>Matricula</Form.Label>
+                    <Form.Label>UID</Form.Label>
                     <Form.Control
                       autoFocus
                       type="text"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      value={uid}
+                      onChange={(e) => setUid(e.target.value)}
                     />
                   </Form.Group>
                   <Form.Group
@@ -109,7 +116,7 @@ function Login() {
                     <Button
                       block
                       size="lg"
-                      type="submit"
+                      //type="submit"
                       onClick={postLogin}
                       className="mt-4"
                     >
