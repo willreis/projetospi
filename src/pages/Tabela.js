@@ -7,7 +7,7 @@ import filterFactory, { textFilter } from "react-bootstrap-table2-filter";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import { Button } from "react-bootstrap";
 import { VscEdit } from 'react-icons/vsc';
-import {logar} from '../services/Api'
+import Api2 from '../services/Api2'
 
 export const Tabela = () => {
 
@@ -220,7 +220,7 @@ export const Tabela = () => {
             <div className="col-md-3 col-sm-12 mt-3">
               
                 <Button variant="success" Style='width: 100%; height: 2.4rem; margin-top: 1.4rem' 
-                onClick={logar}>
+                onClick={Api2}>
                   Validar
                 </Button>
               
