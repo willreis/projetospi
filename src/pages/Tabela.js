@@ -82,7 +82,6 @@ export const Tabela = () => {
       requestUID: "123456"
     })
       .then((response) => {
-        console.log("Precisa disso?", response.data.tipoOperacao);
         setTipoOperacao(
           response.data.tipoOperacao
         )
@@ -103,12 +102,7 @@ export const Tabela = () => {
     })
       .then((response) => {
         setOperacao(
-          response.data.operacao.map((get) => {
-            console.log("Resposta: ", response.data.auditTrails);
-            return {
-              operacao: get.operacao
-            }
-          })
+          response.data.operacao
         )
       })
       .catch((error) => {
@@ -290,7 +284,11 @@ export const Tabela = () => {
               // onChange={validadacaoMesa}
               >
                 <option>Escolha uma opção abaixo</option>
-                <option>{tipoOperacao}</option>
+                {tipoOperacao.map((getSelect) => (
+                  <option value={getSelect}>
+                    {getSelect}
+                  </option>
+                ))}
               </select>
             </div>
             <div class="col-md-3 mt-3">
@@ -302,9 +300,11 @@ export const Tabela = () => {
               // onChange={validadacaoMesa}
               >
                 <option>Escolha uma opção abaixo</option>
-                {operacao.map((parametro) => {
-                  <option>{parametro.operacao}</option>
-                })}
+                {operacao.map((getSelect) => (
+                  <option value={getSelect}>
+                    {getSelect}
+                  </option>
+                ))}
               </select>
             </div>
 
