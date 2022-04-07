@@ -1,30 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import jwt_decode from "jwt-decode";
-import axios from 'axios';
-import { Link } from 'react-router-dom';
+import axios from "axios";
+import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import BootstrapTable from "react-bootstrap-table-next";
 import filterFactory, { textFilter } from "react-bootstrap-table2-filter";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import { Button } from "react-bootstrap";
-import { VscEdit } from 'react-icons/vsc';
-import Api2 from '../services/Api2'
-import { useEffect } from 'react';
+import { VscEdit } from "react-icons/vsc";
+import Api2 from "../services/Api2";
+import { useEffect } from "react";
 
 export const Tabela = () => {
-
   const [auditTrails, setAuditTrails] = useState([]);
   const [tipoOperacao, setTipoOperacao] = useState([]);
   const [operacao, setOperacao] = useState([]);
+  const [ordem, setOrdem] = useState();
+  const [item, setItem] = useState([]);
 
   useEffect(() => {
-    postTipoOperacao()
-    postOperacao()
+    postTipoOperacao();
+    postOperacao();
   }, []);
 
-  function validarToken()
-  {
+  function validarToken() {
     let token = localStorage.getItem("token");
     let decodedToken = jwt_decode(token);
     console.log("Decoded Token", decodedToken);
@@ -35,42 +35,85 @@ export const Tabela = () => {
       console.log("Token expired.");
       window.location.href = "/";
     } else {
-      console.log("Valid token");   
+      console.log("Valid token");
     }
-  } 
+  }
 
-  const mountHeader =  (token) => {
-    return {headers:{
-      "cache-control": "no-cache",
-      "Transfer-Encoding": "chunked",
-      "Content-Type": "application/json; charset=utf-8",
-      Accept: "*/*",
-      "Access-Control-Allow-Origin": "*",
-      Authorization: `Bearer ${token.slice(1, -1)}`,
-    }};
+  const mountHeader = (token) => {
+    return {
+      headers: {
+        "cache-control": "no-cache",
+        "Transfer-Encoding": "chunked",
+        "Content-Type": "application/json; charset=utf-8",
+        Accept: "*/*",
+        "Access-Control-Allow-Origin": "*",
+        Authorization: `Bearer ${token.slice(1, -1)}`,
+      },
+    };
   };
 
   function postAuditTrail() {
+    var negative = -1;
     var tipoOperacaoValue = document.getElementById("tipoOperacao");
     var operacaoValue = document.getElementById("operacao");
+    var ordemValue = document.getElementById("ordem");
     var operacaoText = operacaoValue.options[operacaoValue.selectedIndex].value;
-    var tipoOperacaoText = tipoOperacaoValue.options[tipoOperacaoValue.selectedIndex].value;  
+    var tipoOperacaoText =
+      tipoOperacaoValue.options[tipoOperacaoValue.selectedIndex].value;
 
+    // const validateNegativeNumber = () => {
+    //   if (ordemValue === "" || null) {
+    //     console.log('charlie', validateNegativeNumber);
+    //     return -1;
+    //   }
+    // };
+
+    var dataHoraInicio = new Date(
+      document.getElementById("dataHoraInicio").value
+    );
+
+    var dataHoraFim = new Date(document.getElementById("dataHoraFim").value);
+
+    var dataInicioFormatada = `${dataHoraInicio.getUTCFullYear()}-${(
+      dataHoraInicio.getUTCMonth() + 1
+    )
+      .toString()
+      .padStart(2, "0")}-${dataHoraInicio
+      .getUTCDate()
+      .toString()
+      .padStart(2, "0")} 00:00:00`;
+
+    var dataFimFormatada = `${dataHoraFim.getUTCFullYear()}-${(
+      dataHoraFim.getUTCMonth() + 1
+    )
+      .toString()
+      .padStart(2, "0")}-${dataHoraFim
+      .getUTCDate()
+      .toString()
+      .padStart(2, "0")} 00:00:00`;
+
+    console.log(dataInicioFormatada);
+
+    console.log(dataFimFormatada);
     validarToken();
 
-    const token = localStorage.getItem('token');
-    axios.post(`http://52.149.163.55:6161/api/report/getaudittrail`, {
-      
-      idEmpresa: 1,
-      hashkey: "85853456",
-      requestUID: "123456",
-      idOrdemTransporte: -1,
-      tipoOperacao: tipoOperacaoText,
-      operacao: operacaoText,
-      uid: "-1",
-      dataInicio: "2022-04-01 00:00:01",
-      dataFim: "2022-04-04 23:59:59"
-    }, mountHeader(token),)
+    const token = localStorage.getItem("token");
+    axios
+      .post(
+        `http://52.149.163.55:6161/api/report/getaudittrail`,
+        {
+          idEmpresa: 1,
+          hashkey: "85853456",
+          requestUID: "123456",
+          idOrdemTransporte: -1,
+          tipoOperacao: tipoOperacaoText,
+          operacao: operacaoText,
+          uid: "-1",
+          dataInicio: dataInicioFormatada,
+          dataFim: dataFimFormatada,
+        },
+        mountHeader(token)
+      )
       .then((response) => {
         setAuditTrails(
           response.data.auditTrails.map((get) => {
@@ -85,54 +128,60 @@ export const Tabela = () => {
               uid: get.uid,
               mensagem: get.mensagem,
               dataCriado: get.dataCriado,
-            }
+            };
           })
-        )
+        );
       })
       .catch((error) => {
         console.log("Erro: ", error);
-      })
+      });
 
     console.log("Tipo Operacao Value: ", tipoOperacaoText);
     console.log("Operacao Value: ", operacaoText);
   }
 
   function postTipoOperacao() {
-    console.log("Chegou aqui!")
-    const token = localStorage.getItem('token');
-    axios.post(`http://52.149.163.55:6161/api/report/gettipooperacao`, {
-      headers: mountHeader(token),
-      idEmpresa: 1,
-      hashkey: "85853456",
-      requestUID: "123456"
-    },mountHeader(token),)
+    console.log("Chegou aqui!");
+    const token = localStorage.getItem("token");
+    axios
+      .post(
+        `http://52.149.163.55:6161/api/report/gettipooperacao`,
+        {
+          headers: mountHeader(token),
+          idEmpresa: 1,
+          hashkey: "85853456",
+          requestUID: "123456",
+        },
+        mountHeader(token)
+      )
       .then((response) => {
-        setTipoOperacao(
-          response.data.tipoOperacao
-        )
+        setTipoOperacao(response.data.tipoOperacao);
       })
       .catch((error) => {
         console.log("Erro: ", error);
-      })
+      });
   }
 
   function postOperacao() {
-    console.log("Chegou aqui!")
-    const token = localStorage.getItem('token');
-    axios.post(`http://52.149.163.55:6161/api/report/getoperacao`, {
-      headers: mountHeader(token),
-      idEmpresa: 1,
-      hashkey: "85853456",
-      requestUID: "123456"
-    },mountHeader(token),)
+    console.log("Chegou aqui!");
+    const token = localStorage.getItem("token");
+    axios
+      .post(
+        `http://52.149.163.55:6161/api/report/getoperacao`,
+        {
+          headers: mountHeader(token),
+          idEmpresa: 1,
+          hashkey: "85853456",
+          requestUID: "123456",
+        },
+        mountHeader(token)
+      )
       .then((response) => {
-        setOperacao(
-          response.data.operacao
-        )
+        setOperacao(response.data.operacao);
       })
       .catch((error) => {
         console.log("Erro: ", error);
-      })
+      });
   }
 
   //paginationFactory (Essa parte tem que ficar acima para ñ dar branco na tela)
@@ -273,77 +322,66 @@ export const Tabela = () => {
         <form>
           <div className="row">
             <div className="col-md-2 col-sm-12 mt-3">
-              <label for='dataHoraInicio'>Data/Hora Início</label>
-              <input id='dataHoraInicio' type="date" className="form-control"
-              />
+              <label for="dataHoraInicio">Data/Hora Início</label>
+              <input id="dataHoraInicio" type="date" className="form-control" />
             </div>
             <div className="col-md-2 col-sm-12 mt-3">
-              <label for='dataHoraFim'>Data/Hora Fim</label>
-              <input id='dataHoraFim' type="date" className="form-control"
-              
-              />
+              <label for="dataHoraFim">Data/Hora Fim</label>
+              <input id="dataHoraFim" type="date" className="form-control" />
             </div>
             <div className="col-md-2 col-sm-12 mt-3">
-              <label for='ordem'>Ordem</label>
-              <input id='ordem' type="text" className="form-control"
-              
+              <label for="ordem">Ordem</label>
+              <input
+                id="ordem"
+                type="text"
+                className="form-control"
+                value={ordem}
+                onChange={(e) => ordem(e.target.value)}
               />
             </div>
-            
+
             <div className="col-md-2 col-sm-12 mt-3">
-              <label for='item'>Item</label>
-              <input id='item' type="text" className="form-control"
-              
-              />
+              <label for="item">Item</label>
+              <input id="item" type="text" className="form-control" />
             </div>
 
             <div class="col-md-2 mt-3">
               <label for="tipoOperacao">Tipo de Operação</label>
-              <select
-                id="tipoOperacao"
-                type="text"
-                className="form-select"
-              
-              >
+              <select id="tipoOperacao" type="text" className="form-select">
                 <option value="-1">Escolha uma opção abaixo</option>
                 {tipoOperacao.map((getSelect) => (
-                  <option value={getSelect}>
-                    {getSelect}
-                  </option>
+                  <option value={getSelect}>{getSelect}</option>
                 ))}
               </select>
             </div>
             <div class="col-md-2 mt-3">
               <label for="operacao">Operação</label>
-              <select
-                id="operacao"
-                type="text"
-                className="form-select"
-              
-              >
+              <select id="operacao" type="text" className="form-select">
                 <option value="-1">Escolha uma opção abaixo</option>
                 {operacao.map((getSelect) => (
-                  <option value={getSelect}>
-                    {getSelect}
-                  </option>
+                  <option value={getSelect}>{getSelect}</option>
                 ))}
               </select>
             </div>
 
-            <div className="col-md-2 offset-md-10 col-sm-12" Style='display: flex; justify-content: flex-end; align-items: flex-end'>
-            <Button variant="success" className='btnGerar'
+            <div
+              className="col-md-2 offset-md-10 col-sm-12"
+              Style="display: flex; justify-content: flex-end; align-items: flex-end"
+            >
+              <Button
+                variant="success"
+                className="btnGerar"
                 onClick={postAuditTrail}
               >
                 Gerar
               </Button>
-
             </div>
           </div>
         </form>
 
         <div className="mt-5">
           <div className="row">
-            <div className="col-md-12 tabelaUsuario" >
+            <div className="col-md-12 tabelaUsuario">
               <BootstrapTable
                 keyField="inserirUmKeyfieldDepois"
                 hover
@@ -372,5 +410,5 @@ export const Tabela = () => {
         </div> */}
       </div>
     </>
-  )
-}
+  );
+};
