@@ -61,7 +61,15 @@ function Login() {
             timer: 2500,
           });
           return;
-        } else {
+        }else if(response.data.success === false){
+          Swal2.fire({
+            text: "Usuario ou Senha incorretos!",
+            icon: "error",
+            showConfirmButton: false,
+            timer: 2500,
+          });
+        }
+        else {
           Swal2.fire({
             text: "Logado com sucesso",
             icon: "success",
@@ -69,7 +77,7 @@ function Login() {
             timer: 2500,
           });
           setToken(response.data.token);
-          console.log(response.data);
+          console.log(response);
           window.location.href = "/tabela";
         }
       })

@@ -142,6 +142,9 @@ export const Tabela = () => {
         setAuditTrails(
           response.data.auditTrails.map((get) => {
             console.log("Resposta: ", response.data.auditTrails);
+            var dataCriacao = new Date(get.dataCriado)
+            var dataCriadoForm = dataCriacao.toLocaleDateString();
+            console.log("dfsdfsd", get)
             return {
               idLogOperacao: get.idLogOperacao,
               idEmpresa: get.idEmpresa,
@@ -151,7 +154,7 @@ export const Tabela = () => {
               status: get.status,
               uid: get.uid,
               mensagem: get.mensagem,
-              dataCriado: get.dataCriado,
+              dataCriado: dataCriadoForm,
             };
           })
         );
