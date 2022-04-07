@@ -1,10 +1,24 @@
 import React, { useState } from "react";
 import "react-pro-sidebar/dist/css/styles.css";
-import { ProSidebar, SidebarHeader, SidebarFooter, SidebarContent, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
-import { Link } from 'react-router-dom';
+import {
+  ProSidebar,
+  SidebarHeader,
+  SidebarFooter,
+  SidebarContent,
+  Menu,
+  MenuItem,
+  SubMenu,
+} from "react-pro-sidebar";
+import { Link } from "react-router-dom";
 import { IconContext } from "react-icons/lib";
-import { FaFolderOpen } from 'react-icons/fa';
-import { AiOutlineMenuUnfold, AiOutlineMenuFold, AiFillHome, AiFillInfoCircle, AiOutlineTable } from 'react-icons/ai';
+import { FaFolderOpen } from "react-icons/fa";
+import {
+  AiOutlineMenuUnfold,
+  AiOutlineMenuFold,
+  AiFillHome,
+  AiFillInfoCircle,
+  AiOutlineTable,
+} from "react-icons/ai";
 
 export default function Sidebar() {
   const [menuCollapse, setMenuCollapse] = useState(false);
@@ -27,24 +41,23 @@ export default function Sidebar() {
             <SidebarContent>
               <Menu iconShape="square">
                 <SubMenu title="Páginas" icon={<FaFolderOpen />}>
-                  <MenuItem title="home" icon={<AiFillHome />}>
-                    <Link to='/home'>Home</Link>
+                  <MenuItem title="tabela" icon={<AiOutlineTable />}>
+                    <Link to="/tabela">Tabela</Link>
+                  </MenuItem>
+                  {/* <MenuItem title="home" icon={<AiFillHome />}>
+                    <Link to="/home">Home</Link>
                   </MenuItem>
                   <MenuItem title="info" icon={<AiFillInfoCircle />}>
-                    <Link to='/info'>Info</Link>
-                  </MenuItem>
-                  <MenuItem title="tabela" icon={<AiOutlineTable />}>
-                    <Link to='/tabela'>Tabela</Link>
-                  </MenuItem>
+                    <Link to="/info">Info</Link>
+                  </MenuItem> */}
                 </SubMenu>
               </Menu>
             </SidebarContent>
 
-            <SidebarFooter>
-            </SidebarFooter>
+            <SidebarFooter></SidebarFooter>
           </ProSidebar>
         </div>
       </IconContext.Provider>
     </>
-  )
+  );
 }

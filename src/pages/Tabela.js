@@ -39,15 +39,15 @@ export const Tabela = () => {
     }
   } 
 
-  const mountHeader = async (token) => {
-    return {
+  const mountHeader =  (token) => {
+    return {headers:{
       "cache-control": "no-cache",
       "Transfer-Encoding": "chunked",
       "Content-Type": "application/json; charset=utf-8",
       Accept: "*/*",
       "Access-Control-Allow-Origin": "*",
-      Authorization: `Bearer ${await token}`,
-    };
+      Authorization: `Bearer ${token.slice(1, -1)}`,
+    }};
   };
 
   function postAuditTrail() {
@@ -60,7 +60,7 @@ export const Tabela = () => {
 
     const token = localStorage.getItem('token');
     axios.post(`http://52.149.163.55:6161/api/report/getaudittrail`, {
-      headers: mountHeader(token),
+      
       idEmpresa: 1,
       hashkey: "85853456",
       requestUID: "123456",
@@ -70,7 +70,7 @@ export const Tabela = () => {
       uid: "-1",
       dataInicio: "2022-04-01 00:00:01",
       dataFim: "2022-04-04 23:59:59"
-    })
+    }, mountHeader(token),)
       .then((response) => {
         setAuditTrails(
           response.data.auditTrails.map((get) => {
@@ -81,8 +81,10 @@ export const Tabela = () => {
               idOrdemTransporte: get.idOrdemTransporte,
               tipoOperacao: get.tipoOperacao,
               operacao: get.operacao,
-              sucesso: get.sucesso,
+              status: get.status,
+              uid: get.uid,
               mensagem: get.mensagem,
+              dataCriado: get.dataCriado,
             }
           })
         )
@@ -103,7 +105,7 @@ export const Tabela = () => {
       idEmpresa: 1,
       hashkey: "85853456",
       requestUID: "123456"
-    })
+    },mountHeader(token),)
       .then((response) => {
         setTipoOperacao(
           response.data.tipoOperacao
@@ -122,7 +124,7 @@ export const Tabela = () => {
       idEmpresa: 1,
       hashkey: "85853456",
       requestUID: "123456"
-    })
+    },mountHeader(token),)
       .then((response) => {
         setOperacao(
           response.data.operacao
@@ -176,20 +178,14 @@ export const Tabela = () => {
       text: "ID Operação",
       headerAlign: "center",
       headerStyle: { backgroundColor: "rgb(151 151 151)", fontSize: "14px" },
-      sort: true,
-      filter: textFilter({
-        placeholder: "Filtrar Ordem",
-      }),
+      hidden: true,
     },
     {
       dataField: "idEmpresa",
       text: "ID Empresa",
       headerAlign: "center",
       headerStyle: { backgroundColor: "rgb(151 151 151)", fontSize: "14px" },
-      sort: true,
-      filter: textFilter({
-        placeholder: "Filtrar Máquina",
-      }),
+      hidden: true,
     },
     {
       dataField: "idOrdemTransporte",
@@ -222,13 +218,13 @@ export const Tabela = () => {
       }),
     },
     {
-      dataField: "sucesso",
-      text: "Sucesso",
+      dataField: "status",
+      text: "Status",
       headerAlign: "center",
       headerStyle: { backgroundColor: "rgb(151 151 151)", fontSize: "14px" },
       sort: true,
       filter: textFilter({
-        placeholder: "Filtrar Data Fim",
+        placeholder: "Filtrar Status",
       }),
     },
     {
@@ -241,6 +237,26 @@ export const Tabela = () => {
         placeholder: "Filtrar Data Fim",
       }),
     },
+    {
+      dataField: "uid",
+      text: "Usuário",
+      headerAlign: "center",
+      headerStyle: { backgroundColor: "rgb(151 151 151)", fontSize: "14px" },
+      sort: true,
+      filter: textFilter({
+        placeholder: "Filtrar Usuario",
+      }),
+    },
+    {
+      dataField: "dataCriado",
+      text: "Data",
+      headerAlign: "center",
+      headerStyle: { backgroundColor: "rgb(151 151 151)", fontSize: "14px" },
+      sort: true,
+      filter: textFilter({
+        placeholder: "Filtrar Data",
+      }),
+    },
   ];
 
   return (
@@ -249,62 +265,45 @@ export const Tabela = () => {
         <div className="row">
           <div className="col-md-6 col-sm-12">
             <div className="tituloInterno">
-              <h2 className="titulosPrincipais">Tabela de Dados Fictícios</h2>
+              <h2 className="titulosPrincipais">Audit Trail</h2>
             </div>
           </div>
         </div>
 
         <form>
           <div className="row">
-            <div className="col-md-3 col-sm-12 mt-3">
+            <div className="col-md-2 col-sm-12 mt-3">
               <label for='dataHoraInicio'>Data/Hora Início</label>
               <input id='dataHoraInicio' type="date" className="form-control"
-              // Value={ordemProducao.la}
-              // onChange={(e) => setLa(parseInt(e.target.value))}
-              // readOnly
               />
             </div>
-            <div className="col-md-3 col-sm-12 mt-3">
+            <div className="col-md-2 col-sm-12 mt-3">
               <label for='dataHoraFim'>Data/Hora Fim</label>
               <input id='dataHoraFim' type="date" className="form-control"
-              // Value={ordemProducao.ordem}
-              // onChange={(e) => setOrdem(parseInt(e.target.value))}
+              
               />
             </div>
-            <div className="col-md-3 col-sm-12 mt-3">
+            <div className="col-md-2 col-sm-12 mt-3">
               <label for='ordem'>Ordem</label>
               <input id='ordem' type="text" className="form-control"
-              // Value={ordemProducao.status}
-              // onChange={(e) => setStatus(e.target.value)}
+              
               />
             </div>
-            <div className="col-md-3 col-sm-12 mt-3">
-
-              <Button variant="success" Style='width: 100%; height: 2.4rem; margin-top: 1.4rem'
-                onClick={postAuditTrail}
-              >
-                Validar
-              </Button>
-
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="col-md-3 col-sm-12 mt-3">
+            
+            <div className="col-md-2 col-sm-12 mt-3">
               <label for='item'>Item</label>
               <input id='item' type="text" className="form-control"
-              // Value={ordemProducao.verificada}
-              // onChange={(e) => setStatus(e.target.value)}
+              
               />
             </div>
 
-            <div class="col-md-3 mt-3">
-              <label for="tipoOperacao">Select 1</label>
+            <div class="col-md-2 mt-3">
+              <label for="tipoOperacao">Tipo de Operação</label>
               <select
                 id="tipoOperacao"
                 type="text"
-              // value={mesaSaidaId}
-              // onChange={validadacaoMesa}
+                className="form-select"
+              
               >
                 <option value="-1">Escolha uma opção abaixo</option>
                 {tipoOperacao.map((getSelect) => (
@@ -314,13 +313,13 @@ export const Tabela = () => {
                 ))}
               </select>
             </div>
-            <div class="col-md-3 mt-3">
-              <label for="operacao">Select 2</label>
+            <div class="col-md-2 mt-3">
+              <label for="operacao">Operação</label>
               <select
                 id="operacao"
                 type="text"
-              // value={mesaSaidaId}
-              // onChange={validadacaoMesa}
+                className="form-select"
+              
               >
                 <option value="-1">Escolha uma opção abaixo</option>
                 {operacao.map((getSelect) => (
@@ -331,15 +330,18 @@ export const Tabela = () => {
               </select>
             </div>
 
-            <div className="col-md-3 col-sm-12" Style='display: flex; justify-content: flex-end; align-items: flex-end'>
-              <Button variant="primary" Style='width: 100%; height: 2.4rem'>
+            <div className="col-md-2 offset-md-10 col-sm-12" Style='display: flex; justify-content: flex-end; align-items: flex-end'>
+            <Button variant="success" className='btnGerar'
+                onClick={postAuditTrail}
+              >
                 Gerar
               </Button>
+
             </div>
           </div>
         </form>
 
-        <div className="mt-4">
+        <div className="mt-5">
           <div className="row">
             <div className="col-md-12 tabelaUsuario" >
               <BootstrapTable
@@ -356,7 +358,7 @@ export const Tabela = () => {
           </div>
         </div>
 
-        <div className="row">
+        {/* <div className="row">
           <div className="col-md-2 col-sm-12" Style='margin-right: 1rem'>
             <Button variant="secondary" className="btnAbrirProducao" Style='width: 200px'>
               Exportar PDF
@@ -367,7 +369,7 @@ export const Tabela = () => {
               Exportar Excel
             </Button>
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   )

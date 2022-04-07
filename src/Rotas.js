@@ -13,7 +13,7 @@ function Rotas(props) {
           <Route path="/home" exact> <Home/> </Route>
           <Route path="/info" exact> <Info/> </Route>
           <Route path="/tabela" exact> <Tabela/> </Route>
-          <Route path="/login" exact> <Login/> </Route>
+          <Route path="/" exact> <Login/> </Route>
         </Switch>
       </div>
     </div>

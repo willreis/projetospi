@@ -66,7 +66,7 @@ function Login() {
           });
           setToken(response.data.token);
           console.log(response.data);
-          window.location.href = "/";
+          window.location.href = "/tabela";
         }
       })
       .catch((error) => {
