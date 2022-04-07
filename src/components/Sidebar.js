@@ -19,6 +19,7 @@ import {
   AiFillInfoCircle,
   AiOutlineTable,
 } from "react-icons/ai";
+import torrentLogo from "../assets/logoTorrent.png";
 
 export default function Sidebar() {
   const [menuCollapse, setMenuCollapse] = useState(false);
@@ -30,9 +31,10 @@ export default function Sidebar() {
   return (
     <>
       <IconContext.Provider value={{ color: "#000", size: "1.4rem" }}>
-        <div className="sideBar" Style="grid-area:sidebar">
+        <div id="sideBar" className="sideBar" Style="grid-area:sidebar">
           <ProSidebar collapsed={menuCollapse}>
             <SidebarHeader>
+              <img className="logoTorrent" src={torrentLogo} />
               <div className="closemenu" onClick={menuIconClick} alt="Menu">
                 {menuCollapse ? <AiOutlineMenuUnfold /> : <AiOutlineMenuFold />}
               </div>

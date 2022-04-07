@@ -9,6 +9,19 @@ span.pro-item-content:hover {
   color: #000 !important;
 }
 
+.loginBox {
+  background: rgb(109 166 218)!important;
+}
+
+.btnLogin button {
+  width: 200px;
+  background: #2958e7;
+  border: 1px solid #2958e7
+}
+.btnLogin button:hover {
+  background-color: #3c7ddd;
+}
+
 .paddingContainer {
   padding: 3rem !important;
 }
@@ -16,6 +29,8 @@ span.pro-item-content:hover {
 .pro-sidebar {
   width: 190px !important;
   min-width: 190px !important;
+  -webkit-box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.18);
+  box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.18);
 }
 
 .pro-sidebar.collapsed {
@@ -24,11 +39,11 @@ span.pro-item-content:hover {
 }
 
 .pro-sidebar-header {
-  text-align: right;
-  margin-top: 94px;
+  text-align: center;
+  margin-top: 25px;
 }
 
-.pro-sidebar-header svg{
+.pro-sidebar-header svg {
   cursor: pointer;
 }
 
@@ -106,7 +121,17 @@ input#text-filter-column {
   font-size: 18px;
 }
 
-.pro-sidebar>.pro-sidebar-inner {
+.react-slidedown.pro-inner-list-item {
+  background: #76afe3 !important;
+}
+
+.pro-sidebar.collapsed .pro-menu>ul>.pro-menu-item.pro-sub-menu>.pro-inner-list-item>.popper-inner {
+  background-color: #6DA6DA;
+}
+
+.pro-sidebar.collapsed .pro-menu>ul>.pro-menu-item.pro-sub-menu>.pro-inner-list-item>.popper-inner,
+.pro-sidebar>.pro-sidebar-inner,
+.pro-sidebar .pro-menu a {
   background: #6DA6DA !important;
 }
 
@@ -127,9 +152,14 @@ input#text-filter-column {
   font-weight: bold;
 }
 
+li.pro-menu-item.pro-sub-menu.open .react-slidedown.pro-inner-list-item {
+  background: #76afe3 !important;
+}
+
 .pro-sidebar .pro-menu a {
   text-decoration: none !important;
   color: #000000 !important;
+  background: #76afe3 !important;
 }
 
 .pro-sidebar-inner {
@@ -144,4 +174,30 @@ input#text-filter-column {
   width: 100%;
   height: 2.4rem;
   margin-top: 1.4rem;
+  background: #2a766a;
+}
+
+.btnGerar:hover {
+  background: #4d9388;
+}
+
+.logoTorrent {
+  width: 80%;
+  margin-bottom: 25px;
+}
+
+.closemenu {
+  text-align: right;
+}
+
+.closemenu svg {
+  margin-right: 15px;
+}
+
+h2.titulosPrincipais {
+  font-size: 48px;
+  color: rgb(109 166 218);
+  font-weight: bold;
+  margin-bottom: 30px;
+  text-shadow: 2px 2px 2px rgba(0,0,0,0.3);
 }

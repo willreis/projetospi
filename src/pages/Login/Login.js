@@ -7,6 +7,7 @@ import Swal2 from "sweetalert2";
 import { RiLoginBoxLine } from "react-icons/ri";
 import StoreContext from "../../components/Store/Context";
 import { useHistory } from "react-router-dom";
+import logoTorrentLogin from "../../assets/logoTorrentLogin.png";
 import "../../login.css";
 
 function Login() {
@@ -19,6 +20,9 @@ function Login() {
   var url = "Authentication/login";
 
   useEffect(() => {
+    var sideBarH = document.getElementById('sideBar')
+    sideBarH.style.display="none";
+
     localStorage.clear();
   }, []);
   // ----------------------------------------------------------------------------------------//
@@ -87,12 +91,12 @@ function Login() {
           <div className="row justify-content-center">
             <div className="col-md-4">
               <div className="logoAtlaslogin">
-                <img src="#" alt="atlas-logo" Style="width:100%" />
+                <img src={logoTorrentLogin} alt="Torrent Logo" Style="width:80%" />
               </div>
               <div className="loginBox">
                 <Form>
                   <Form.Group size="lg" controlId="email">
-                    <Form.Label>UID</Form.Label>
+                    <Form.Label>Usuário</Form.Label>
                     <Form.Control
                       autoFocus
                       type="text"

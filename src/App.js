@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "./components/Header";
+// import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import Rotas from "./Rotas";
 import Styled from "styled-components";
@@ -21,7 +21,7 @@ function App() {
     <>
       <BrowserRouter>
         <Container>
-          <Header Style={"grid-area: header"} />
+          {/* <Header Style={"grid-area: header"} /> */}
           <Sidebar Style={"grid-area: sidebar"} />
           <Rotas Style={"grid-area: content"} />
         </Container>
