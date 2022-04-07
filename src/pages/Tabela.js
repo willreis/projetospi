@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 import jwt_decode from "jwt-decode";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import BootstrapTable from "react-bootstrap-table-next";
 import filterFactory, { textFilter } from "react-bootstrap-table2-filter";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import { Button } from "react-bootstrap";
-import { VscEdit } from "react-icons/vsc";
-import Api2 from "../services/Api2";
 import { useEffect } from "react";
 
 export const Tabela = () => {
