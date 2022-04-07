@@ -20,6 +20,7 @@ import {
   AiOutlineTable,
 } from "react-icons/ai";
 import torrentLogo from "../assets/logoTorrent.png";
+import { BiLogOutCircle } from 'react-icons/bi';
 
 export default function Sidebar() {
   const [menuCollapse, setMenuCollapse] = useState(false);
@@ -56,7 +57,11 @@ export default function Sidebar() {
               </Menu>
             </SidebarContent>
 
-            <SidebarFooter></SidebarFooter>
+            <SidebarFooter>
+              <MenuItem className='iconFooter' title="Logout" icon={<BiLogOutCircle />}>
+                <Link to="/">Logout</Link>
+              </MenuItem>
+            </SidebarFooter>
           </ProSidebar>
         </div>
       </IconContext.Provider>
