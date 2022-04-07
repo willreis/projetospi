@@ -73,7 +73,7 @@ export const Tabela = () => {
       document.getElementById("dataHoraInicio").value
     );
     var dataHoraFim = new Date(document.getElementById("dataHoraFim").value);
-
+   
     var dataInicioFormatada = `${dataHoraInicio.getUTCFullYear()}-${(
       dataHoraInicio.getUTCMonth() + 1
     )
@@ -151,7 +151,7 @@ export const Tabela = () => {
               status: get.status,
               uid: get.uid,
               mensagem: get.mensagem,
-              dataCriado: dataCriadoForm,
+              dataCriado: dataCriacao,
             };
           })
         );
@@ -248,6 +248,24 @@ export const Tabela = () => {
 
   const columns = [
     {
+      dataField: "dataCriado",
+      text: "Data",
+      headerAlign: "center",
+      headerStyle: { backgroundColor: "rgb(109 166 218)", fontSize: "14px" },
+      formatter: (cell) => {
+        let dateObj = cell;
+        if (typeof cell !== 'object') {
+            dateObj = new Date(cell);
+        }
+
+        
+         return `${('0' + dateObj.getDate()).slice(-2)}/${('0' + (dateObj.getMonth() + 1)).slice(-2)}/${dateObj.getFullYear()} ${('0' + dateObj.getHours()).slice(-2) }:${('0' + dateObj.getMinutes()).slice(-2)}:${('0' + dateObj.getSeconds()).slice(-2)}`;
+    },
+      filter: textFilter({
+        placeholder: "Filtrar Data",
+      }),
+    },
+    {
       dataField: "idLogOperacao",
       text: "ID Operação",
       headerAlign: "center",
@@ -321,16 +339,7 @@ export const Tabela = () => {
         placeholder: "Filtrar Usuario",
       }),
     },
-    {
-      dataField: "dataCriado",
-      text: "Data",
-      headerAlign: "center",
-      headerStyle: { backgroundColor: "rgb(109 166 218)", fontSize: "14px" },
-      sort: true,
-      filter: textFilter({
-        placeholder: "Filtrar Data",
-      }),
-    },
+   
   ];
 
   return (
