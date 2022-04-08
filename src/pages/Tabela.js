@@ -151,7 +151,7 @@ export const Tabela = () => {
               status: get.status,
               uid: get.uid,
               mensagem: get.mensagem,
-              dataCriado: dataCriadoForm,
+              dataCriado: get.dataCriado,
             };
           })
         );
@@ -324,6 +324,15 @@ export const Tabela = () => {
     {
       dataField: "dataCriado",
       text: "Data",
+      formatter: (cell) => {
+        let dateObj = cell;
+        if (typeof cell !== 'object') {
+            dateObj = new Date(cell);
+        }
+        return( `${('0' + dateObj.getDate()).slice(-2)}/${('0' + (dateObj.getMonth() + 1)).slice(-2)}/${dateObj.getFullYear()} ${('0' + dateObj.getHours()).slice(-2) }:${('0' + dateObj.getMinutes()).slice(-2)}:${('0' + dateObj.getSeconds()).slice(-2)}`)
+        
+      },
+
       headerAlign: "center",
       headerStyle: { backgroundColor: "rgb(109 166 218)", fontSize: "14px" },
       sort: true,
