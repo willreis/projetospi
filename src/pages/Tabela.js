@@ -57,8 +57,7 @@ export const Tabela = () => {
     var tipoOperacaoValue = document.getElementById("tipoOperacao");
     var operacaoValue = document.getElementById("operacao");
     var operacaoText = operacaoValue.options[operacaoValue.selectedIndex].value;
-    var tipoOperacaoText =
-      tipoOperacaoValue.options[tipoOperacaoValue.selectedIndex].value;
+    var tipoOperacaoText = tipoOperacaoValue.options[tipoOperacaoValue.selectedIndex].value;
 
     //DEFINE O VALOR ORDEM TRANSPORTE
     var ordemValue = parseInt(document.getElementById("ordem").value);
@@ -69,51 +68,54 @@ export const Tabela = () => {
     setUserId(uidValue);
 
     //FILTRO DATA
-    var dataHoraInicio = new Date(
-      document.getElementById("dataHoraInicio").value
-    );
+    var dataHoraInicio = new Date(document.getElementById("dataHoraInicio").value);
     var dataHoraFim = new Date(document.getElementById("dataHoraFim").value);
-   
+
+    console.log(dataHoraInicio);
+    console.log(dataHoraFim);
+
+    console.log("TEMPO INICIO", dataHoraInicio.toLocaleTimeString())
+    console.log("TEMPO FIM", dataHoraFim.toLocaleTimeString())
+
+    console.log("DATA INICIO COMPLETA", dataHoraInicio.toLocaleDateString())
+    console.log("DATA FIM COMPLETA", dataHoraFim.toLocaleDateString())
+
     var dataInicioFormatada = `${dataHoraInicio.getUTCFullYear()}-${(
       dataHoraInicio.getUTCMonth() + 1
     )
       .toString()
       .padStart(2, "0")}-${dataHoraInicio
-      .getUTCDate()
-      .toString()
-      .padStart(2, "0")} 00:00:00`;
+        .getUTCDate()
+        .toString()
+        .padStart(2, "0")} ${dataHoraInicio.toLocaleTimeString()}`;
 
     var dataFimFormatada = `${dataHoraFim.getUTCFullYear()}-${(
       dataHoraFim.getUTCMonth() + 1
     )
       .toString()
       .padStart(2, "0")}-${dataHoraFim
-      .getUTCDate()
-      .toString()
-      .padStart(2, "0")} 00:00:00`;
+        .getUTCDate()
+        .toString()
+        .padStart(2, "0")} ${dataHoraFim.toLocaleTimeString()}`;
+
+    console.log("DATA INICIO FORMATADA", dataInicioFormatada)
+    console.log("DATA FIM FORMATADA", dataFimFormatada)
 
     // FILTRO ORDEM
-    function filtroOrdem(ordemTemp)
-    {
-      if(isNaN(ordemTemp))
-      {
+    function filtroOrdem(ordemTemp) {
+      if (isNaN(ordemTemp)) {
         return -1;
-      }
-      else
-      {
+      } else {
         return ordemTemp;
       }
     }
 
     //FILTRO USER ID
-    function filtroUid(uidTemp)
-    {
-      if(uidTemp === ""){
+    function filtroUid(uidTemp) {
+      if (uidTemp === "") {
         console.log("asdas", uidTemp)
         return "-1";
-      }
-      else
-      {
+      } else {
         return uidTemp;
       }
     }
@@ -151,7 +153,7 @@ export const Tabela = () => {
               status: get.status,
               uid: get.uid,
               mensagem: get.mensagem,
-              dataCriado: dataCriacao,
+              dataCriado: get.dataCriado,
             };
           })
         );
@@ -250,40 +252,27 @@ export const Tabela = () => {
     {
       dataField: "dataCriado",
       text: "Data",
-      headerAlign: "center",
-      headerStyle: { backgroundColor: "rgb(109 166 218)", fontSize: "14px" },
       formatter: (cell) => {
         let dateObj = cell;
         if (typeof cell !== 'object') {
-            dateObj = new Date(cell);
+          dateObj = new Date(cell);
         }
+        return (`${('0' + dateObj.getDate()).slice(-2)}/${('0' + (dateObj.getMonth() + 1)).slice(-2)}/${dateObj.getFullYear()} ${('0' + dateObj.getHours()).slice(-2)}:${('0' + dateObj.getMinutes()).slice(-2)}:${('0' + dateObj.getSeconds()).slice(-2)}`)
 
-        
-         return `${('0' + dateObj.getDate()).slice(-2)}/${('0' + (dateObj.getMonth() + 1)).slice(-2)}/${dateObj.getFullYear()} ${('0' + dateObj.getHours()).slice(-2) }:${('0' + dateObj.getMinutes()).slice(-2)}:${('0' + dateObj.getSeconds()).slice(-2)}`;
-    },
+      },
+
+      headerAlign: "center",
+      headerStyle: { backgroundColor: "rgb(109 166 218)", fontSize: "14px",  width: "14%" },
+      sort: true,
       filter: textFilter({
         placeholder: "Filtrar Data",
       }),
     },
     {
-      dataField: "idLogOperacao",
-      text: "ID Operação",
-      headerAlign: "center",
-      headerStyle: { backgroundColor: "rgb(109 166 218)", fontSize: "14px" },
-      hidden: true,
-    },
-    {
-      dataField: "idEmpresa",
-      text: "ID Empresa",
-      headerAlign: "center",
-      headerStyle: { backgroundColor: "rgb(109 166 218)", fontSize: "14px" },
-      hidden: true,
-    },
-    {
       dataField: "idOrdemTransporte",
       text: "Ordem Transporte",
       headerAlign: "center",
-      headerStyle: { backgroundColor: "rgb(109 166 218)", fontSize: "14px" },
+      headerStyle: { backgroundColor: "rgb(109 166 218)", fontSize: "14px", width: "20%"},
       sort: true,
       filter: textFilter({
         placeholder: "Filtrar Ordem",
@@ -293,7 +282,7 @@ export const Tabela = () => {
       dataField: "tipoOperacao",
       text: "Tipo Operação",
       headerAlign: "center",
-      headerStyle: { backgroundColor: "rgb(109 166 218)", fontSize: "14px" },
+      headerStyle: { backgroundColor: "rgb(109 166 218)", fontSize: "14px", width: "17%" },
       sort: true,
       filter: textFilter({
         placeholder: "Filtrar Tipo Operaçao",
@@ -303,7 +292,7 @@ export const Tabela = () => {
       dataField: "operacao",
       text: "Operação",
       headerAlign: "center",
-      headerStyle: { backgroundColor: "rgb(109 166 218)", fontSize: "14px" },
+      headerStyle: { backgroundColor: "rgb(109 166 218)", fontSize: "14px", width: "20%" },
       sort: true,
       filter: textFilter({
         placeholder: "Filtrar Operaçao",
@@ -313,7 +302,7 @@ export const Tabela = () => {
       dataField: "status",
       text: "Status",
       headerAlign: "center",
-      headerStyle: { backgroundColor: "rgb(109 166 218)", fontSize: "14px" },
+      headerStyle: { backgroundColor: "rgb(109 166 218)", fontSize: "14px", width: "13%" },
       sort: true,
       filter: textFilter({
         placeholder: "Filtrar Status",
@@ -323,7 +312,7 @@ export const Tabela = () => {
       dataField: "mensagem",
       text: "Mensagem",
       headerAlign: "center",
-      headerStyle: { backgroundColor: "rgb(109 166 218)", fontSize: "14px" },
+      headerStyle: { backgroundColor: "rgb(109 166 218)", fontSize: "14px", width: "25%" },
       sort: true,
       filter: textFilter({
         placeholder: "Filtrar Mensagem",
@@ -333,7 +322,7 @@ export const Tabela = () => {
       dataField: "uid",
       text: "Usuário",
       headerAlign: "center",
-      headerStyle: { backgroundColor: "rgb(109 166 218)", fontSize: "14px" },
+      headerStyle: { backgroundColor: "rgb(109 166 218)", fontSize: "14px", width: "25%" },
       sort: true,
       filter: textFilter({
         placeholder: "Filtrar Usuario",
@@ -353,15 +342,15 @@ export const Tabela = () => {
           </div>
         </div>
 
-        <form>
+        <form className="tabelaAudit">
           <div className="row">
             <div className="col-md-2 col-sm-12 mt-3">
               <label for="dataHoraInicio">Data/Hora Início</label>
-              <input id="dataHoraInicio" type="date" className="form-control" />
+              <input id="dataHoraInicio" type="datetime-local" className="form-control" />
             </div>
             <div className="col-md-2 col-sm-12 mt-3">
               <label for="dataHoraFim">Data/Hora Fim</label>
-              <input id="dataHoraFim" type="date" className="form-control" />
+              <input id="dataHoraFim" type="datetime-local" className="form-control" />
             </div>
             <div className="col-md-2 col-sm-12 mt-3">
               <label for="ordem">Ordem</label>
