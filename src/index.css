@@ -205,11 +205,14 @@ h2.titulosPrincipais {
 
 .iconFooter {
   margin-bottom: 1.2rem;
-  /* margin-left: 10%; */
 }
 
-.iconFooter :hover {
-  color: #000;
+.iconFooter a:hover {
+  text-shadow: 1px 1px 2px #444;
+}
+
+.iconFooter a:hover {
+  text-shadow: 1px 1px 2px #444;
 }
 
 .pro-item-content a {
@@ -217,6 +220,10 @@ h2.titulosPrincipais {
   text-decoration: none;
   font-size: 1rem;
   font-weight: bold;
+}
+
+.pro-item-content a:hover {
+  color: black;
 }
 
 .pro-inner-item {
