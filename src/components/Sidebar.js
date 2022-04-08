@@ -43,9 +43,9 @@ export default function Sidebar() {
 
             <SidebarContent>
               <Menu iconShape="square">
-                <SubMenu title="Páginas" icon={<FaFolderOpen />}>
+                <SubMenu title="Páginas" icon={<FaFolderOpen />} defaultOpen={true}>
                   <MenuItem title="tabela" icon={<AiOutlineTable />}>
-                    <Link to="/tabela">Tabela</Link>
+                    <Link to="/tabela">Audit Trail</Link>
                   </MenuItem>
                   {/* <MenuItem title="home" icon={<AiFillHome />}>
                     <Link to="/home">Home</Link>
