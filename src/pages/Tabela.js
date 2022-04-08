@@ -71,6 +71,15 @@ export const Tabela = () => {
     var dataHoraInicio = new Date(document.getElementById("dataHoraInicio").value);
     var dataHoraFim = new Date(document.getElementById("dataHoraFim").value);
 
+    console.log(dataHoraInicio);
+    console.log(dataHoraFim);
+
+    console.log("TEMPO INICIO", dataHoraInicio.toLocaleTimeString())
+    console.log("TEMPO FIM", dataHoraFim.toLocaleTimeString())
+
+    console.log("DATA INICIO COMPLETA", dataHoraInicio.toLocaleDateString())
+    console.log("DATA FIM COMPLETA", dataHoraFim.toLocaleDateString())
+
     var dataInicioFormatada = `${dataHoraInicio.getUTCFullYear()}-${(
       dataHoraInicio.getUTCMonth() + 1
     )
@@ -78,7 +87,7 @@ export const Tabela = () => {
       .padStart(2, "0")}-${dataHoraInicio
         .getUTCDate()
         .toString()
-        .padStart(2, "0")} 00:00:00`;
+        .padStart(2, "0")} ${dataHoraInicio.toLocaleTimeString()}`;
 
     var dataFimFormatada = `${dataHoraFim.getUTCFullYear()}-${(
       dataHoraFim.getUTCMonth() + 1
@@ -87,7 +96,10 @@ export const Tabela = () => {
       .padStart(2, "0")}-${dataHoraFim
         .getUTCDate()
         .toString()
-        .padStart(2, "0")} 00:00:00`;
+        .padStart(2, "0")} ${dataHoraFim.toLocaleTimeString()}`;
+
+    console.log("DATA INICIO FORMATADA", dataInicioFormatada)
+    console.log("DATA FIM FORMATADA", dataFimFormatada)
 
     // FILTRO ORDEM
     function filtroOrdem(ordemTemp) {
@@ -347,11 +359,11 @@ export const Tabela = () => {
           <div className="row">
             <div className="col-md-2 col-sm-12 mt-3">
               <label for="dataHoraInicio">Data/Hora Início</label>
-              <input id="dataHoraInicio" type="date" className="form-control" />
+              <input id="dataHoraInicio" type="datetime-local" className="form-control" />
             </div>
             <div className="col-md-2 col-sm-12 mt-3">
               <label for="dataHoraFim">Data/Hora Fim</label>
-              <input id="dataHoraFim" type="date" className="form-control" />
+              <input id="dataHoraFim" type="datetime-local" className="form-control" />
             </div>
             <div className="col-md-2 col-sm-12 mt-3">
               <label for="ordem">Ordem</label>
