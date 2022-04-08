@@ -43,7 +43,7 @@ export default function Sidebar() {
 
             <SidebarContent>
               <Menu iconShape="square">
-                <SubMenu title="Páginas" icon={<FaFolderOpen />} defaultOpen={true}>
+                <SubMenu title="Relatórios" icon={<FaFolderOpen />} defaultOpen={true}>
                   <MenuItem title="tabela" icon={<AiOutlineTable />}>
                     <Link to="/tabela">Audit Trail</Link>
                   </MenuItem>
