@@ -226,3 +226,7 @@ h2.titulosPrincipais {
 ::marker {
   color: #6DA6DA;
 }
+
+.iconFooter a:hover {
+  text-shadow: 1px 1px 2px #444;
+}
